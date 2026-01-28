@@ -25,15 +25,8 @@ data <- data[, c("ZIP5", "YEAR", "AGE_CAT","BENE_SEX_CD","BENE_RACE_CD", "MA",
                            covariates
 )]
 # Clean the data
+data <- data[data$PM25_US_below9 == 1,]
 data <- data[data$PERSON_YEAR_HTN > 0,]
-data <- as.data.frame(data)
-filtered_zips <- data %>%
-  group_by(ZIP5) %>%
-  summarize(max_pm2.5 = max(PM25_US, na.rm = TRUE)) %>%  
-  filter(max_pm2.5 < 9) %>%  
-  select(ZIP5)
-data <- data %>%
-  filter(ZIP5 %in% filtered_zips$ZIP5)
 
 # Construct dataset for double negative control analysis
 data_nc <- data %>%
@@ -142,5 +135,4 @@ results$Percent_Change <- round(results$Percent_Change, 2)
 results$Percent_Change_Lower <- round(results$Percent_Change_Lower, 2)
 results$Percent_Change_Upper <- round(results$Percent_Change_Upper, 2)
 
-results
-
+resultS
